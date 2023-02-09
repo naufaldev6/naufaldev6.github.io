@@ -30,6 +30,7 @@ import {
 } from 'react-icons/ai';
 import { FaCss3Alt } from 'react-icons/fa';
 import { RiArrowUpSLine } from 'react-icons/ri';
+import { BiCopyright } from 'react-icons/bi';
 
 export default function Home() {
 	const [navBar, setNavbar] = useState(false);
@@ -255,7 +256,7 @@ export default function Home() {
 							</h2>
 						</div>
 						<div className="mx-auto w-60 h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 bg-slate-700 rounded-full overflow-hidden mt-4">
-							<Image src={gambar1} alt="Naufal Dev Profile Picture" />
+							<Image src={gambar1} priority alt="Naufal Dev Profile Picture" />
 						</div>
 					</div>
 				</section>
@@ -705,8 +706,8 @@ export default function Home() {
 									<AiOutlineLinkedin className="text-xl lg:text-2xl text-white dark:text-slate-100" />
 								</div>
 							</div>
-							<span className="text-white dark:text-slate-100 text-sm lg:text-base font-normal tracking-wide">
-								&copy; Naufaldev. All rights reserved
+							<span className="text-white flex items-center dark:text-slate-100 text-sm lg:text-base font-normal tracking-wide">
+								<BiCopyright /> Naufaldev. All rights reserved
 							</span>
 						</div>
 					</div>
