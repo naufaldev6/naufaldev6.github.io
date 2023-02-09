@@ -1,3 +1,4 @@
+/*
 .main {
   display: flex;
   flex-direction: column;
@@ -130,7 +131,7 @@
   z-index: -1;
 }
 
-/* Conic Gradient Animation */
+/* Conic Gradient Animation */ /*
 .thirteen::before {
   animation: 6s rotate linear infinite;
   width: 200%;
@@ -138,7 +139,7 @@
   background: var(--tile-border);
 }
 
-/* Inner Square */
+/* Inner Square */ /*
 .thirteen::after {
   inset: 0;
   padding: 1px;
@@ -151,7 +152,7 @@
   background-clip: content-box;
 }
 
-/* Enable hover only on non-touch devices */
+/* Enable hover only on non-touch devices */ /*
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
     background: rgba(var(--card-rgb), 0.1);
@@ -173,7 +174,7 @@
   }
 }
 
-/* Mobile */
+/* Mobile */ /*
 @media (max-width: 700px) {
   .content {
     padding: 4rem;
@@ -250,7 +251,7 @@
   }
 }
 
-/* Tablet and Smaller Desktop */
+/* Tablet and Smaller Desktop */ /*
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
     grid-template-columns: repeat(2, 50%);
@@ -276,3 +277,41 @@
     transform: rotate(0deg);
   }
 }
+*/
+
+/*
+.bgAbout {
+	background-image: url('../public/laptop.jpg');
+	/* background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat; 
+}
+
+.navbarFixed {
+	position: fixed;
+	z-index: 9999;
+	box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+.navbarFixedDark {
+	position: fixed;
+	z-index: 9999;
+	box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.hamburgerActive1 {
+	transform: rotate(45deg);
+}
+.hamburgerActive2 {
+	transform: scale(0);
+}
+.hamburgerActive3 {
+	transform: rotate(-45deg);
+}
+.toggleCircle {
+	transform: translateX(21px);
+}
+.minToggleCircle {
+	transform: translateX(-21px);
+}
+*/
