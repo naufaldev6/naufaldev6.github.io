@@ -276,7 +276,7 @@ export default function Home() {
 									tentang saya
 								</h1>
 								<h2 className="text-3xl lg:text-5xl text-dark dark:text-white mb-4">
-									I'm Naufal
+									I&apos;m Naufal
 								</h2>
 								<p className="text-base lg:text-lg text-slate-700 dark:text-light text-justify">
 									Lorem ipsum dolor sit, amet consectetur adipisicing elit.
