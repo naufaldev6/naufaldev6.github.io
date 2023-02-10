@@ -14,7 +14,7 @@ import logo10 from '../public/express.png';
 import logo11 from '../public/mysql.png';
 import logo12 from '../public/mongodb.png';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	BsMoonStarsFill,
 	BsBrightnessHighFill,
@@ -38,13 +38,16 @@ export default function Home() {
 	const [hamburgerActive, setHamburgerActive] = useState(false);
 	const [styleMessage, setStyleMessage] = useState(false);
 
+	let menuRef = useRef();
+
 	useEffect(() => {
-		window.addEventListener('click', function (e) {
-			let navMenu = document.getElementById('nav-menu');
-			if (e.target != hamburger && e.target != navMenu) {
+		let menuHandler = (e) => {
+			if (!menuRef.current.contains(e.target)) {
 				setHamburgerActive(false);
 			}
-		});
+		};
+
+		document.addEventListener('mousedown', menuHandler);
 
 		window.onscroll = function () {
 			const header = document.querySelector('header');
@@ -58,13 +61,15 @@ export default function Home() {
 		};
 
 		const darkToggle = document.getElementById('dark-toggle');
-		darkToggle.addEventListener('click', () => {
+		let darkToggleHandler = () => {
 			if (darkToggle.getAttribute('data-dark') == 1) {
 				localStorage.theme = 'light';
 			} else {
 				localStorage.theme = 'dark';
 			}
-		});
+		};
+
+		darkToggle.addEventListener('click', darkToggleHandler);
 
 		if (
 			localStorage.theme === 'dark' ||
@@ -75,6 +80,11 @@ export default function Home() {
 		} else {
 			setDarkMode(false);
 		}
+
+		return () => {
+			document.removeEventListener('mousedown', menuHandler);
+			document.removeEventListener('click', darkToggleHandler);
+		};
 	}, []);
 
 	const handleChangeMessage = (event) => {
@@ -117,6 +127,7 @@ export default function Home() {
 			</Head>
 			<div className="bg-white text-slate-500 dark:bg-dark dark:text-light">
 				<header
+					ref={menuRef}
 					className={`absolute top-0 left-0 z-10 flex w-full items-center bg-transparent lg:px-40 ${
 						navBar
 							? `${
@@ -630,20 +641,20 @@ export default function Home() {
 						<div className="relative w-full h-[45px] lg:h-[50px] mb-6">
 							<input
 								type="text"
-								className="absolute h-full w-full outline-none border border-solid border-slate-400 rounded-lg transition-all duration-200 ease-linear px-4 peer focus:border-primary focus:ring-2 valid:border-primary valid:ring-2 tracking-wide dark:text-dark"
+								className="absolute h-full w-full outline-none border border-solid border-slate-400 rounded-lg transition-all duration-200 ease-linear px-4 peer focus:border-primary focus:ring-2 valid:border-primary valid:ring-2 tracking-wide dark:text-white dark:bg-dark"
 								required
 							/>
-							<label className="absolute text-sm lg:text-base text-light dark:text-dark top-1/2 -translate-y-1/2 transition-all duration-200 ease-in-out left-4 peer-focus:top-0 peer-focus:bg-white dark:peer-focus:bg-dark peer-focus:px-1 peer-focus:text-primary peer-valid:top-0 peer-valid:bg-white dark:peer-valid:bg-dark peer-valid:px-1 peer-valid:text-primary tracking-wide dark:peer-focus:rounded dark:peer-valid:rounded">
+							<label className="absolute text-sm lg:text-base text-light dark:text-white top-1/2 -translate-y-1/2 transition-all duration-200 ease-in-out left-4 peer-focus:top-0 peer-focus:bg-white dark:peer-focus:bg-dark peer-focus:px-1 peer-focus:text-primary peer-valid:top-0 peer-valid:bg-white dark:peer-valid:bg-dark peer-valid:px-1 peer-valid:text-primary tracking-wide">
 								Nama
 							</label>
 						</div>
 						<div className="relative w-full h-[45px] lg:h-[50px] mb-6">
 							<input
 								type="text"
-								className="absolute h-full w-full outline-none border border-solid border-slate-400 rounded-lg transition-all duration-200 ease-linear px-4 peer focus:border-primary focus:ring-2 valid:border-primary valid:ring-2 tracking-wide dark:text-dark"
+								className="absolute h-full w-full outline-none border border-solid border-slate-400 rounded-lg transition-all duration-200 ease-linear px-4 peer focus:border-primary focus:ring-2 valid:border-primary valid:ring-2 tracking-wide dark:text-white dark:bg-dark"
 								required
 							/>
-							<label className="absolute text-sm lg:text-base text-light dark:text-dark top-1/2 -translate-y-1/2 transition-all duration-200 ease-in-out left-4 peer-focus:top-0 peer-focus:bg-white dark:peer-focus:bg-dark peer-focus:px-1 peer-focus:text-primary peer-valid:top-0 peer-valid:bg-white dark:peer-valid:bg-dark peer-valid:px-1 peer-valid:text-primary tracking-wide dark:peer-focus:rounded dark:peer-valid:rounded">
+							<label className="absolute text-sm lg:text-base text-light dark:text-white top-1/2 -translate-y-1/2 transition-all duration-200 ease-in-out left-4 peer-focus:top-0 peer-focus:bg-white dark:peer-focus:bg-dark peer-focus:px-1 peer-focus:text-primary peer-valid:top-0 peer-valid:bg-white dark:peer-valid:bg-dark peer-valid:px-1 peer-valid:text-primary tracking-wide">
 								Email
 							</label>
 						</div>
@@ -652,17 +663,17 @@ export default function Home() {
 								id="pesan"
 								name="pesan"
 								onChange={handleChangeMessage}
-								className={`absolute h-full w-full outline-none border border-solid rounded-lg transition-all duration-200 ease-linear px-4 peer focus:border-primary focus:ring-2 dark:text-dark ${
+								className={`absolute h-full w-full outline-none border border-solid rounded-lg transition-all duration-200 ease-linear px-4 peer focus:border-primary focus:ring-2 dark:text-white dark:bg-dark ${
 									!styleMessage
 										? 'border-light ring-0'
 										: 'border-primary ring-2'
 								} tracking-wide py-3`}
 							></textarea>
 							<label
-								className={`absolute text-sm lg:text-base -translate-y-1/2 transition-all duration-200 ease-in-out left-4 bg-white peer-focus:top-0  peer-focus:px-1 peer-focus:text-primary dark:peer-focus:bg-dark dark:peer-focus:rounded ${
+								className={`absolute text-sm lg:text-base -translate-y-1/2 transition-all duration-200 ease-in-out left-4 bg-white peer-focus:top-0  peer-focus:px-1 peer-focus:text-primary dark:peer-focus:bg-dark dark:bg-dark ${
 									!styleMessage
-										? 'text-light dark:text-dark top-[15%] px-0 '
-										: 'top-0  px-1 text-primary dark:bg-dark dark:rounded'
+										? 'text-light dark:text-white top-[15%] px-0 '
+										: 'top-0  px-1 text-primary dark:bg-dark'
 								} tracking-wide`}
 							>
 								Pesan
@@ -689,7 +700,7 @@ export default function Home() {
 					</div>
 				</a>
 
-				<section className="pt-24 before:content-[''] before:absolute before:w-full before:h-[1px] before:bg-dark ">
+				<section className="pt-24 dark:before:content-[''] dark:before:absolute dark:before:w-full dark:before:h-[1px] dark:before:bg-white ">
 					<div className="pt-10 pb-16 lg:pt-16 lg:pb-24 bg-sky-400 dark:bg-primary">
 						<div className="flex items-center flex-col">
 							<h1 className="font-burtons text-xl lg:text-3xl uppercase text-white dark:text-slate-100 pb-3 lg:pb-4">
