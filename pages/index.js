@@ -13,6 +13,7 @@ import logo9 from '../public/nextjs.png';
 import logo10 from '../public/express.png';
 import logo11 from '../public/mysql.png';
 import logo12 from '../public/mongodb.png';
+import flagid from '../public/id.svg';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -71,11 +72,7 @@ export default function Home() {
 
 		darkToggle.addEventListener('click', darkToggleHandler);
 
-		if (
-			localStorage.theme === 'dark' ||
-			(!('theme' in localStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches)
-		) {
+		if (localStorage.theme === 'dark') {
 			setDarkMode(true);
 		} else {
 			setDarkMode(false);
@@ -214,7 +211,7 @@ export default function Home() {
 												Kontak
 											</a>
 										</li>
-										<li className="mt-3 flex items-center pl-8 lg:mt-0">
+										<li className="mt-3 flex items-center ml-8 mr-8 lg:mr-0 lg:mt-0 justify-between">
 											<div className="flex">
 												<input
 													type="checkbox"
@@ -246,6 +243,9 @@ export default function Home() {
 													</div>
 												</label>
 											</div>
+											<div className="w-6 h-6 rounded-full overflow-hidden border-2 border-dark dark:border-white lg:ml-4 cursor-pointer hover:scale-110 transition duration-300">
+												<Image src={flagid} alt="bendera indonesia" />
+											</div>
 										</li>
 									</ul>
 								</nav>
@@ -266,8 +266,16 @@ export default function Home() {
 								Web Developer
 							</h2>
 						</div>
-						<div className="mx-auto w-60 h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 bg-slate-700 rounded-full overflow-hidden mt-4">
+						<div className="mx-auto w-60 h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 bg-slate-700 rounded-full overflow-hidden mt-6 border-2 dark:border-white">
 							<Image src={gambar1} priority alt="Naufal Dev Profile Picture" />
+						</div>
+						<div className="text-center mt-3">
+							<a
+								href="#kontak"
+								className="bg-primary py-2 px-4 text-sm lg:text-base rounded-lg text-white inline-block mt-4 font-medium hover:opacity-80 shadow shadow-primary"
+							>
+								Hire Me
+							</a>
 						</div>
 					</div>
 				</section>
@@ -692,7 +700,7 @@ export default function Home() {
 					href="#home"
 					className={`fixed bottom-4 right-4 lg:bottom-6 lg:right-6 z-[9999] ${
 						!navBar ? 'hidden' : ''
-					} w-12 h-12 md:h-14 md:w-13 lg:h-14 lg:w-14 rounded-full bg-primary p-4 hover:animate-pulse animate-bounce flex justify-center items-center text-white`}
+					} w-12 h-12 md:h-13 md:w-13 lg:h-14 lg:w-14 rounded-full bg-primary p-4 hover:animate-pulse animate-bounce flex justify-center items-center text-white`}
 					id="to-top"
 				>
 					<div>
