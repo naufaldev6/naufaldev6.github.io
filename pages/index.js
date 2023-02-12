@@ -20,6 +20,7 @@ import {
 	BsMoonStarsFill,
 	BsBrightnessHighFill,
 	BsFileEarmarkText,
+	BsHourglass,
 } from 'react-icons/bs';
 import { FaRegPaperPlane } from 'react-icons/fa';
 import Slider from 'react-slick';
@@ -42,6 +43,13 @@ export default function Home() {
 	let menuRef = useRef();
 
 	useEffect(() => {
+		document.body.classList.add('overflow-hidden');
+
+	setTimeout(() => {
+		document.body.classList.remove('overflow-hidden');
+		document.getElementById("loading").classList.add("hidden");
+	}, 1000)
+
 		let menuHandler = (e) => {
 			if (!menuRef.current.contains(e.target)) {
 				setHamburgerActive(false);
@@ -123,6 +131,12 @@ export default function Home() {
 				<link rel="icon" href="/naufal.ico" />
 			</Head>
 			<div className="bg-white text-slate-500 dark:bg-dark dark:text-light">
+				<div id='loading' className='fixed z-[999] min-h-screen min-w-[100vw] bg-white dark:bg-dark flex justify-center items-center'>
+					<div className='flex flex-col items-center text-primary text-xl'>
+					<BsHourglass className='animate-spin mb-2 text-3xl' />
+					<h1 className='animate-pulse'>Loading...</h1>
+					</div>
+				</div>
 				<header
 					ref={menuRef}
 					className={`absolute top-0 left-0 z-10 flex w-full items-center bg-transparent lg:px-40 ${
@@ -698,7 +712,7 @@ export default function Home() {
 
 				<a
 					href="#home"
-					className={`fixed bottom-4 right-4 lg:bottom-6 lg:right-6 z-[9999] ${
+					className={`fixed bottom-4 right-4 lg:bottom-6 lg:right-6 z-[99] ${
 						!navBar ? 'hidden' : ''
 					} w-12 h-12 md:h-13 md:w-13 lg:h-14 lg:w-14 rounded-full bg-primary p-4 hover:animate-pulse animate-bounce flex justify-center items-center text-white`}
 					id="to-top"
