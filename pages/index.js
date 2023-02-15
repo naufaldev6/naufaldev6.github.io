@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import i18n from '@/i18n';
 import gambar1 from '../public/naufal.png';
 import gambar2 from '../public/laptop.jpg';
 import logo1 from '../public/html.png';
@@ -14,6 +15,7 @@ import logo10 from '../public/express.png';
 import logo11 from '../public/mysql.png';
 import logo12 from '../public/mongodb.png';
 import flagid from '../public/id.svg';
+import flagen from '../public/gb.svg';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -33,22 +35,58 @@ import {
 import { FaCss3Alt } from 'react-icons/fa';
 import { RiArrowUpSLine } from 'react-icons/ri';
 import { BiCopyright } from 'react-icons/bi';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 export default function Home() {
 	const [navBar, setNavbar] = useState(false);
 	const [darkMode, setDarkMode] = useState(false);
 	const [hamburgerActive, setHamburgerActive] = useState(false);
 	const [styleMessage, setStyleMessage] = useState(false);
+	const [changeLanguageState, setChangeLanguageState] = useState(false);
 
 	let menuRef = useRef();
+	const { i18n } = useTranslation();
+	const router = useRouter();
+	const { locale } = router;
 
 	useEffect(() => {
 		document.body.classList.add('overflow-hidden');
 
-	setTimeout(() => {
-		document.body.classList.remove('overflow-hidden');
-		document.getElementById("loading").classList.add("hidden");
-	}, 1000)
+		setTimeout(() => {
+			document.body.classList.remove('overflow-hidden');
+			document.getElementById("loading").classList.add("hidden");
+		}, 1000);
+
+		if (locale === 'id' && localStorage.bahasa === 'en') {
+			let hrefnow = window.location.href;
+			let paramUrlnow = hrefnow.split('/')[3];
+			let resultParam = paramUrlnow.split('?')[0];
+			let finalResultParam = resultParam.split('#')[0];
+			if (finalResultParam == 'id') {
+				setChangeLanguageState(false);
+				i18n.changeLanguage('id');
+				localStorage.bahasa = "id";
+			}else {
+				setChangeLanguageState(true);
+				i18n.changeLanguage('en');
+				localStorage.bahasa = "en";
+			}
+		}else if (locale === 'en') {
+			setChangeLanguageState(true);
+			i18n.changeLanguage('en');
+			localStorage.bahasa = "en";
+		}else if (locale === 'id') {
+			setChangeLanguageState(false);
+			i18n.changeLanguage('id');
+			localStorage.bahasa = "id";
+		}
+
+		if (localStorage.theme === 'dark') {
+			setDarkMode(true);
+		} else {
+			setDarkMode(false);
+		}
 
 		let menuHandler = (e) => {
 			if (!menuRef.current.contains(e.target)) {
@@ -77,18 +115,29 @@ export default function Home() {
 				localStorage.theme = 'dark';
 			}
 		};
-
 		darkToggle.addEventListener('click', darkToggleHandler);
+		
+		const dataLanguage = document.getElementById('language');
 
-		if (localStorage.theme === 'dark') {
-			setDarkMode(true);
-		} else {
-			setDarkMode(false);
+		let languageHandler = () => {
+			if (dataLanguage.getAttribute('data-language') == 1) {
+				localStorage.bahasa = 'id';
+				window.location.href = '/id';
+			}else if(dataLanguage.getAttribute('data-language') == 0) {
+				localStorage.bahasa = 'en';
+				window.location.href = '/en';
+			}else {
+				localStorage.bahasa = 'id';
+				window.location.href = '/id';
+			}
 		}
+
+		dataLanguage.addEventListener('click', languageHandler);
 
 		return () => {
 			document.removeEventListener('mousedown', menuHandler);
 			document.removeEventListener('click', darkToggleHandler);
+			document.removeEventListener('click', languageHandler);
 		};
 	}, []);
 
@@ -125,8 +174,8 @@ export default function Home() {
 	return (
 		<div className={`${darkMode ? 'dark' : ''}`}>
 			<Head>
-				<title>Naufal Dev</title>
-				<meta name="description" content="Portfolio Naufal Dev" />
+				<title>{i18n.t('sinaufaldev')}</title>
+				<meta name="description" content="Sinaufal Dev website portfolio Muhammad Naufal mahasiswa Universitas Bina Insani jurusan Teknik Informatika" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/naufal.ico" />
 			</Head>
@@ -154,7 +203,7 @@ export default function Home() {
 									href="#home"
 									className="block py-6 text-lg font-bold text-primary uppercase font-burtons"
 								>
-									naufal dev
+									{i18n.t('sinaufaldev')}
 								</a>
 							</div>
 							<div className="flex items-center px-4 lg:px-0">
@@ -190,7 +239,7 @@ export default function Home() {
 												href="#home"
 												className="mx-8 lg:mx-7 flex py-2 text-base text-dark dark:text-white group-hover:text-primary"
 											>
-												Beranda
+												{i18n.t('beranda')}
 											</a>
 										</li>
 										<li className="group">
@@ -198,7 +247,7 @@ export default function Home() {
 												href="#about"
 												className="mx-8 lg:mx-7 flex py-2 text-base text-dark dark:text-white group-hover:text-primary"
 											>
-												Tentang Saya
+												{i18n.t('tentang-saya')}
 											</a>
 										</li>
 										<li className="group">
@@ -206,7 +255,7 @@ export default function Home() {
 												href="#projects"
 												className="mx-8 lg:mx-7 flex py-2 text-base text-dark dark:text-white group-hover:text-primary"
 											>
-												Projects
+												{i18n.t('proyek')}
 											</a>
 										</li>
 										<li className="group">
@@ -214,7 +263,7 @@ export default function Home() {
 												href="#timeline"
 												className="mx-8 lg:mx-7 flex py-2 text-base text-dark dark:text-white group-hover:text-primary"
 											>
-												Timeline
+												{i18n.t('linimasa')}
 											</a>
 										</li>
 										<li className="group">
@@ -222,7 +271,7 @@ export default function Home() {
 												href="#kontak"
 												className="mx-8 lg:mx-7 flex py-2 text-base text-dark dark:text-white group-hover:text-primary"
 											>
-												Kontak
+												{i18n.t('kontak')}
 											</a>
 										</li>
 										<li className="mt-3 flex items-center ml-8 mr-8 lg:mr-0 lg:mt-0 justify-between">
@@ -257,8 +306,8 @@ export default function Home() {
 													</div>
 												</label>
 											</div>
-											<div className="w-6 h-6 rounded-full overflow-hidden border-2 border-dark dark:border-white lg:ml-4 cursor-pointer hover:scale-110 transition duration-300">
-												<Image src={flagid} alt="bendera indonesia" />
+											<div id='language' data-language={changeLanguageState ? '1' : '0'} className="w-6 h-6 rounded-full overflow-hidden border-2 border-dark dark:border-white lg:ml-4 cursor-pointer hover:scale-110 transition duration-300">
+												{!changeLanguageState ? <Image src={flagen} alt="Bendera United Kingdom" /> : <Image src={flagid} alt="Bendera Indonesia" />}
 											</div>
 										</li>
 									</ul>
@@ -277,7 +326,7 @@ export default function Home() {
 								Muhammad Naufal
 							</h1>
 							<h2 className="text-xl md:text-2xl text-dark dark:text-white font-semibold">
-								Web Developer
+								{i18n.t('pengembang-web')}
 							</h2>
 						</div>
 						<div className="mx-auto w-60 h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 bg-slate-700 rounded-full overflow-hidden mt-6 border-2 dark:border-white">
@@ -288,7 +337,7 @@ export default function Home() {
 								href="#kontak"
 								className="bg-primary py-2 px-4 text-sm lg:text-base rounded-lg text-white inline-block mt-4 font-medium hover:opacity-80 shadow shadow-primary"
 							>
-								Hire Me
+								{i18n.t('mempekerjakan-saya')}
 							</a>
 						</div>
 					</div>
@@ -306,10 +355,10 @@ export default function Home() {
 							</div>
 							<div className="w-full md:w-2/3 lg:w-1/2">
 								<h1 className="relative text-xl lg:text-3xl text-primary mb-7 lg:mb-6 uppercase before:content-[''] before:absolute before:w-10 before:h-[2px] before:bg-primary before:top-12 before:left-0 after:content-[''] after:absolute after:w-20 after:h-[2px] after:bg-primary after:top-10 after:left-0">
-									tentang saya
+									{i18n.t('tentang-saya')}
 								</h1>
 								<h2 className="text-3xl lg:text-5xl text-dark dark:text-white mb-4">
-									I&apos;m Naufal
+									{i18n.t('saya-naufal')}
 								</h2>
 								<p className="text-base lg:text-lg text-slate-700 dark:text-light text-justify">
 									Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -324,7 +373,7 @@ export default function Home() {
 									href="#"
 									className="bg-primary py-2 px-4 text-sm lg:text-base rounded-lg text-white inline-block mt-4 font-medium hover:opacity-80 shadow-md"
 								>
-									Download CV{' '}
+									{i18n.t('unduh-cv')}{' '}
 									<BsFileEarmarkText className="inline-block mb-1" />
 								</a>
 							</div>
@@ -375,13 +424,13 @@ export default function Home() {
 					</div>
 				</section>
 
-				<section id="projects" className="pt-24 px-4">
+				<section id="projects" className="pt-24 px-4 pb-4">
 					<div className="container">
 						<div className="flex justify-center mb-4">
 							<h1
 								className={`relative text-xl lg:text-3xl flex text-primary mb-14 uppercase before:content-[''] before:absolute before:w-10 before:h-[2px] before:bg-primary before:top-12 after:content-[''] after:absolute after:w-20 after:h-[2px] after:bg-primary after:top-10`}
 							>
-								Projects Saya
+								{i18n.t('proyek-saya')}
 							</h1>
 						</div>
 						<div className="flex flex-wrap w-full justify-center gap-10">
@@ -572,7 +621,7 @@ export default function Home() {
 					<h1
 						className={`relative text-xl lg:text-3xl flex text-primary mb-14 uppercase before:content-[''] before:absolute before:w-10 before:h-[2px] before:bg-primary before:top-12 after:content-[''] after:absolute after:w-20 after:h-[2px] after:bg-primary after:top-10`}
 					>
-						Timeline
+						{i18n.t('linimasa')}
 					</h1>
 					<div className="w-full lg:w-1/2">
 						<ul>
@@ -657,7 +706,7 @@ export default function Home() {
 					<h1
 						className={`relative text-xl lg:text-3xl flex text-primary mb-14 uppercase before:content-[''] before:absolute before:w-10 before:h-[2px] before:bg-primary before:top-12 after:content-[''] after:absolute after:w-20 after:h-[2px] after:bg-primary after:top-10`}
 					>
-						Kontak Saya
+						{i18n.t('hubungi-saya')}
 					</h1>
 					<div className="w-full lg:w-1/3">
 						<div className="relative w-full h-[45px] lg:h-[50px] mb-6">
@@ -667,7 +716,7 @@ export default function Home() {
 								required
 							/>
 							<label className="absolute text-sm lg:text-base text-light dark:text-white top-1/2 -translate-y-1/2 transition-all duration-200 ease-in-out left-4 peer-focus:top-0 peer-focus:bg-white dark:peer-focus:bg-dark peer-focus:px-1 peer-focus:text-primary peer-valid:top-0 peer-valid:bg-white dark:peer-valid:bg-dark peer-valid:px-1 peer-valid:text-primary tracking-wide">
-								Nama
+								{i18n.t('nama')}
 							</label>
 						</div>
 						<div className="relative w-full h-[45px] lg:h-[50px] mb-6">
@@ -698,14 +747,14 @@ export default function Home() {
 										: 'top-0  px-1 text-primary dark:bg-dark'
 								} tracking-wide`}
 							>
-								Pesan
+								{i18n.t('pesan')}
 							</label>
 						</div>
 						<a
 							href="#"
 							className="bg-primary text-sm lg:text-base py-2 px-4 rounded-lg text-white inline-block font-medium hover:opacity-80 shadow-md"
 						>
-							Kirim Pesan <FaRegPaperPlane className="inline-block mb-1" />
+							{i18n.t('kirim-pesan')} <FaRegPaperPlane className="inline-block mb-1" />
 						</a>
 					</div>
 				</section>
@@ -726,7 +775,7 @@ export default function Home() {
 					<div className="pt-10 pb-16 lg:pt-16 lg:pb-24 bg-sky-400 dark:bg-primary">
 						<div className="flex items-center flex-col">
 							<h1 className="font-burtons text-xl lg:text-3xl uppercase text-white dark:text-slate-100 pb-3 lg:pb-4">
-								Naufal Dev
+								{i18n.t('sinaufaldev')}
 							</h1>
 							<div className="flex flex-wrap w-full justify-center gap-4 lg:gap-6 pb-5 lg:pb-6">
 								<div className="bg-[#E4405F] w-8 h-8 lg:w-10 lg:h-10 rounded-full flex justify-center items-center hover:cursor-pointer shadow hover:scale-110 transition duration-200 ease-linear">
@@ -740,7 +789,7 @@ export default function Home() {
 								</div>
 							</div>
 							<span className="text-white flex items-center dark:text-slate-100 text-sm lg:text-base font-normal tracking-wide">
-								<BiCopyright /> Naufaldev. All rights reserved
+								<BiCopyright /> {i18n.t('hak-cipta-sinaufaldev')}
 							</span>
 						</div>
 					</div>
