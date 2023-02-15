@@ -176,6 +176,7 @@ export default function Home() {
 			<Head>
 				<title>{i18n.t('sinaufaldev')}</title>
 				<meta name="description" content="Sinaufal Dev website portfolio Muhammad Naufal mahasiswa Universitas Bina Insani jurusan Teknik Informatika" />
+                                <meta name="google-site-verification" content="ocebThsbBPwqKbDyYpqk80QDwsaSZuqBLBgmP4KLVK8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/naufal.ico" />
 			</Head>
