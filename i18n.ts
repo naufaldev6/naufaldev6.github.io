@@ -18,9 +18,8 @@ i18n
 .use(LanguageDetector)
 .use(initReactI18next)
 .init({
-    
     defaultNS: 'default',
-    lng: 'id',
+    lng: 'en',
     ns: ['default'],
     debug: false,
     interpolation: {

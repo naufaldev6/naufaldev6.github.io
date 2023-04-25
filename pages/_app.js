@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import i18n from '@/i18n'
+import i18n from '../i18n'
 import { useRouter } from 'next/router'
 
 export default function App({ Component, pageProps }) {

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import i18n from '@/i18n';
+import i18n from '../i18n';
 import gambar1 from '../public/naufal.png';
 import gambar2 from '../public/laptop.jpg';
 import logo1 from '../public/html.png';
@@ -35,7 +35,6 @@ import {
 import { FaCss3Alt } from 'react-icons/fa';
 import { RiArrowUpSLine } from 'react-icons/ri';
 import { BiCopyright } from 'react-icons/bi';
-import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 
 export default function Home() {
@@ -43,10 +42,8 @@ export default function Home() {
 	const [darkMode, setDarkMode] = useState(false);
 	const [hamburgerActive, setHamburgerActive] = useState(false);
 	const [styleMessage, setStyleMessage] = useState(false);
-	const [changeLanguageState, setChangeLanguageState] = useState(false);
 
 	let menuRef = useRef();
-	const { i18n } = useTranslation();
 	const router = useRouter();
 	const { locale } = router;
 
@@ -57,30 +54,6 @@ export default function Home() {
 			document.body.classList.remove('overflow-hidden');
 			document.getElementById("loading").classList.add("hidden");
 		}, 1000);
-
-		if (locale === 'id' && localStorage.bahasa === 'en') {
-			let hrefnow = window.location.href;
-			let paramUrlnow = hrefnow.split('/')[3];
-			let resultParam = paramUrlnow.split('?')[0];
-			let finalResultParam = resultParam.split('#')[0];
-			if (finalResultParam == 'id') {
-				setChangeLanguageState(false);
-				i18n.changeLanguage('id');
-				localStorage.bahasa = "id";
-			}else {
-				setChangeLanguageState(true);
-				i18n.changeLanguage('en');
-				localStorage.bahasa = "en";
-			}
-		}else if (locale === 'en') {
-			setChangeLanguageState(true);
-			i18n.changeLanguage('en');
-			localStorage.bahasa = "en";
-		}else if (locale === 'id') {
-			setChangeLanguageState(false);
-			i18n.changeLanguage('id');
-			localStorage.bahasa = "id";
-		}
 
 		if (localStorage.theme === 'dark') {
 			setDarkMode(true);
@@ -120,16 +93,7 @@ export default function Home() {
 		const dataLanguage = document.getElementById('language');
 
 		let languageHandler = () => {
-			if (dataLanguage.getAttribute('data-language') == 1) {
-				localStorage.bahasa = 'id';
-				window.location.href = '/id';
-			}else if(dataLanguage.getAttribute('data-language') == 0) {
-				localStorage.bahasa = 'en';
-				window.location.href = '/en';
-			}else {
-				localStorage.bahasa = 'id';
-				window.location.href = '/id';
-			}
+			locale === 'en' ? window.location.href = '/id' : window.location.href = '/en';
 		}
 
 		dataLanguage.addEventListener('click', languageHandler);
@@ -307,8 +271,8 @@ export default function Home() {
 													</div>
 												</label>
 											</div>
-											<div id='language' data-language={changeLanguageState ? '1' : '0'} className="w-6 h-6 rounded-full overflow-hidden border-2 border-dark dark:border-white lg:ml-4 cursor-pointer hover:scale-110 transition duration-300">
-												{!changeLanguageState ? <Image src={flagen} alt="Bendera United Kingdom" /> : <Image src={flagid} alt="Bendera Indonesia" />}
+											<div id='language' className="w-6 h-6 rounded-full overflow-hidden border-2 border-dark dark:border-white lg:ml-4 cursor-pointer hover:scale-110 transition duration-300">
+												{locale === 'id' ? <Image src={flagen} alt="Bendera United Kingdom" /> : <Image src={flagid} alt="Bendera Indonesia" />}
 											</div>
 										</li>
 									</ul>
